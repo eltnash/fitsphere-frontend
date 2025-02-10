@@ -1,1 +1,11 @@
-<h1>hello world</h1>
+<div class="app-container">
+  <nav class="navigation">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <!-- <a routerLink="/profile" routerLinkActive="active">Profile</a> -->
+  </nav>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
