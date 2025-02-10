@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,7 +42,8 @@ export class LoginComponent {
           } else if (response.data?.login) {
             // Handle successful login
             console.log('Login successful:', response.data.login);
-            // Store token, redirect, etc.
+            // Navigate to profile page after successful login
+            this.router.navigate(['/profile']);
           }
           this.loading = false;
         },
