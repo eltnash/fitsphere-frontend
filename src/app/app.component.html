@@ -1,9 +1,5 @@
 <div class="app-container">
-  <nav class="navigation">
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-    <a routerLink="/login" routerLinkActive="active">Login</a>
-    <!-- <a routerLink="/profile" routerLinkActive="active">Profile</a> -->
-  </nav>
+  <app-navigation></app-navigation>
 
   <main class="main-content">
     <router-outlet></router-outlet>
