@@ -9,14 +9,19 @@ import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()), provideHttpClient(), provideApollo(() => {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+    provideHttpClient(),
+    provideApollo(() => {
       const httpLink = inject(HttpLink);
-
       return {
         link: httpLink.create({
-          uri: '<%= endpoint %>',
+          uri: 'http://localhost:4000',
         }),
         cache: new InMemoryCache(),
       };
-    })]
+    })
+  ]
 };
