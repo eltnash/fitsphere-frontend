@@ -4,10 +4,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "dev": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:fitsphere-frontend": "node dist/fitsphere-frontend/server/server.mjs"
+    "test": "jest",
+    "serve:ssr:fitsphere-frontend": "node dist/fitsphere-frontend/server/server.mjs",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "ts-node prisma/seed.ts"
   },
   "private": true,
   "dependencies": {
