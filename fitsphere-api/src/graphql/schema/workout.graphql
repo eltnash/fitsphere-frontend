@@ -1,0 +1,27 @@
+type Workout {
+  id: Int!
+  type: String!
+  duration: Int!
+  caloriesBurned: Int!
+  user: User!
+}
+
+type WorkoutStats {
+  totalWorkouts: Int!
+  totalCaloriesBurned: Int!
+  averageDuration: Float!
+}
+
+extend type Query {
+  workoutStats(userId: Int!): WorkoutStats
+  userWorkouts(userId: Int!): [Workout!]!
+}
+
+extend type Mutation {
+  createWorkout(
+    userId: Int!
+    type: String!
+    duration: Int!
+    caloriesBurned: Int!
+  ): Workout
+}
