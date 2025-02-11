@@ -12,20 +12,41 @@ const schema = loadSchemaSync(join(__dirname, './graphql/schema/**/*.graphql'), 
 // Import resolvers
 import { resolvers } from './graphql/resolvers';
 
-// Create Apollo Server
-const server = new ApolloServer({
-  typeDefs: schema,
-  resolvers,
-  context: ({ req }) => ({
-    prisma,
-    // Add any additional context items here
-  }),
+let server: ApolloServer | null = null;
+
+async function startServer() {
+  try {
+    // Ensure only one server instance exists
+    if (server) {
+      await server.stop();
+    }
+
+    // Create Apollo Server
+    server = new ApolloServer({
+      typeDefs: schema,
+      resolvers,
+      context: ({ req }) => ({
+        prisma,
+      }),
+    });
+
+    const PORT = process.env.PORT || 4001;
+    const { url } = await server.listen(PORT);
+    
+    console.log(`🚀 Server ready at ${url}`);
+    console.log(`🎉 GraphQL Playground available at ${url}graphql`);
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Handle shutdown gracefully
+process.on('SIGTERM', async () => {
+  if (server) {
+    await server.stop();
+  }
+  process.exit(0);
 });
 
-// Start the server
-const PORT = process.env.PORT || 4001;
-
-server.listen(PORT).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-  console.log(`🎉 GraphQL Playground available at ${url}graphql`);
-}); 
+startServer(); 
