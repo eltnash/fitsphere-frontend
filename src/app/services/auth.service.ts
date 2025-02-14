@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 export interface User {
   id: string;
@@ -22,7 +23,9 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {}
+  private apiUrl = 'http://localhost:3000'; // Replace with your actual API URL
+
+  constructor(private http: HttpClient) {}
 
   login(input: LoginInput): Observable<LoginResponse> {
     // Replace this with your actual authentication logic
@@ -45,5 +48,14 @@ export class AuthService {
       email: 'user@example.com',
       name: 'User Name'
     });
+  }
+
+  signup(userData: {
+    username: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  }) {
+    return this.http.post<any>(`${this.apiUrl}/signup`, userData);
   }
 } 
