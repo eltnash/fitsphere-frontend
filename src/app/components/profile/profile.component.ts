@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../types/graphql.types';
+import { User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,14 +22,11 @@ export class ProfileComponent implements OnInit {
   }
 
   loadUserProfile() {
+    this.loading = true;
     this.authService.getCurrentUser().subscribe({
-      next: (response) => {
-        this.loading = response.loading;
-        if (response.error) {
-          this.error = response.error.message;
-        } else if (response.data?.me) {
-          this.user = response.data.me;
-        }
+      next: (user) => {
+        this.loading = false;
+        this.user = user;
       },
       error: (err) => {
         this.loading = false;

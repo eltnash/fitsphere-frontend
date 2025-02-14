@@ -34,22 +34,20 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.loading = true;
       this.error = null;
-
+      
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          if (response.error) {
-            this.error = response.error.message;
-          } else if (response.data?.login) {
-            // Handle successful login
-            console.log('Login successful:', response.data.login);
-            // Navigate to profile page after successful login
-            this.router.navigate(['/profile']);
-          }
           this.loading = false;
+          // Store the token
+          localStorage.setItem('token', response.token);
+          // Optional: log the successful login without accessing .data
+          console.log('Login successful:', response);
+          // Navigate to profile or dashboard
+          this.router.navigate(['/profile']);
         },
         error: (err) => {
-          this.error = err.message;
           this.loading = false;
+          this.error = err.message;
         }
       });
     }

@@ -1,62 +1,61 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { gql } from '@apollo/client/core';
-import { Observable, map } from 'rxjs';
-import { LoginInput, LoginResponse, User, QueryResponse } from '../types/graphql.types';
-import { FetchResult } from '@apollo/client/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
-// GraphQL Operations
-const LOGIN_MUTATION = gql`
-  mutation Login($input: LoginInput!) {
-    login(input: $input) {
-      token
-      user {
-        id
-        email
-        name
-      }
-    }
-  }
-`;
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+}
 
-const GET_CURRENT_USER = gql`
-  query GetCurrentUser {
-    me {
-      id
-      email
-      name
-    }
-  }
-`;
+export interface LoginInput {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  user: User;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private apollo: Apollo) {}
+  private apiUrl = 'http://localhost:3000'; // Replace with your actual API URL
 
-  login(input: LoginInput): Observable<QueryResponse<{ login: LoginResponse }>> {
-    return this.apollo.mutate<{ login: LoginResponse }>({
-      mutation: LOGIN_MUTATION,
-      variables: { input }
-    }).pipe(
-      map(result => ({
-        loading: false,
-        data: result.data || undefined,
-        error: result.errors
-      }))
-    );
+  constructor(private http: HttpClient) {}
+
+  login(input: LoginInput): Observable<LoginResponse> {
+    // Replace this with your actual authentication logic
+    // This is just a mock implementation
+    return of({
+      token: 'mock-token',
+      user: {
+        id: '1',
+        email: input.email,
+        name: 'User Name'
+      }
+    });
   }
 
-  getCurrentUser(): Observable<QueryResponse<{ me: User }>> {
-    return this.apollo.watchQuery<{ me: User }>({
-      query: GET_CURRENT_USER
-    }).valueChanges.pipe(
-      map(result => ({
-        loading: result.loading,
-        data: result.data || undefined,
-        error: result.error
-      }))
-    );
+  getCurrentUser(): Observable<User> {
+    // Replace this with your actual user fetching logic
+    // This is just a mock implementation
+    return of({
+      id: '1',
+      email: 'user@example.com',
+      name: 'User Name'
+    });
+  }
+
+  signup(userData: {
+    username: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  }) {
+    return this.http.post<any>(`${this.apiUrl}/signup`, userData);
   }
 } 
