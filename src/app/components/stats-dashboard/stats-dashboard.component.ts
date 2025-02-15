@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Card } from 'primeng/card';
 import { ProgressSpinner } from 'primeng/progressspinner';
+import { CommonModule } from '@angular/common';
 
 interface WorkoutStats {
   totalWorkouts: number;
@@ -12,7 +13,7 @@ interface WorkoutStats {
   templateUrl: './stats-dashboard.component.html',
   styleUrls: ['./stats-dashboard.component.scss'],
   standalone: true,
-  imports: [Card, ProgressSpinner]
+  imports: [CommonModule, Card, ProgressSpinner]
 })
 export class StatsDashboardComponent implements OnInit {
   stats: WorkoutStats | null = null;
