@@ -1,42 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { Card } from 'primeng/card';
-import { ProgressSpinner } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
-
-interface WorkoutStats {
-  totalWorkouts: number;
-  totalCaloriesBurned: number;
-}
+import { GraphQLService } from '../../services/graphql.service';
+import { User, Stats } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-stats-dashboard',
-  templateUrl: './stats-dashboard.component.html',
-  styleUrls: ['./stats-dashboard.component.scss'],
   standalone: true,
-  imports: [CommonModule, Card, ProgressSpinner]
+  imports: [CommonModule],
+  template: `
+    <div *ngIf="user">
+      <h2>Welcome {{ user.name }}</h2>
+      <div *ngIf="user.stats">
+        <h3>Your Stats</h3>
+        <p>Total Workouts: {{ user.stats.totalWorkouts }}</p>
+        <p>Total Calories Burned: {{ user.stats.totalCaloriesBurned }}</p>
+        <p>Total Distance: {{ user.stats.totalDistance }}</p>
+        <p>Total Time: {{ user.stats.totalTime }}</p>
+      </div>
+    </div>
+  `
 })
 export class StatsDashboardComponent implements OnInit {
-  stats: WorkoutStats | null = null;
-  loading: boolean = false;
-  error: boolean = false;
+  user?: User;
 
-  constructor() {}
+  constructor(private graphQLService: GraphQLService) {}
 
   ngOnInit() {
-    this.loadStats();
+    // Replace this hardcoded ID with a real user ID
+    const userId = 'actual-user-id'; // Get this from your auth service
+    
+    this.graphQLService.getUserById(userId).subscribe({
+      next: (user) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user:', error);
+      }
+    });
   }
 
-  private loadStats() {
-    this.loading = true;
-    this.error = false;
-    
-    // TODO: Replace with actual API call
-    setTimeout(() => {
-      this.stats = {
-        totalWorkouts: 0,
-        totalCaloriesBurned: 0
-      };
-      this.loading = false;
-    }, 1000);
+  // Example method to update stats
+  updateStats(newStats: Partial<Stats>) {
+    this.graphQLService.updateUserStats(newStats).subscribe({
+      next: (updatedStats) => {
+        if (this.user) {
+          this.user.stats = updatedStats;
+        }
+      },
+      error: (error) => {
+        console.error('Error updating stats:', error);
+      }
+    });
   }
 } 
