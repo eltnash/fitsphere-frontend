@@ -1,0 +1,28 @@
+<p-card class="stats-card">
+    <ng-template pTemplate="header">
+        <div class="card-header">
+            <h2>Workout Stats</h2>
+        </div>
+    </ng-template>
+    
+    <div *ngIf="stats" class="stats-content">
+        <div class="stat-item">
+            <span class="stat-label">Total Workouts</span>
+            <span class="stat-value">{{ stats.totalWorkouts }}</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Total Calories Burned</span>
+            <span class="stat-value">{{ stats.totalCaloriesBurned }}</span>
+        </div>
+    </div>
+    
+    <div *ngIf="loading" class="loading-state">
+        <p-progressSpinner [style]="{width: '40px', height: '40px'}"></p-progressSpinner>
+        <span>Loading stats...</span>
+    </div>
+    
+    <div *ngIf="error" class="error-state">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>Error loading stats</span>
+    </div>
+</p-card>
