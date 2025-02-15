@@ -1,27 +1,37 @@
-<p-card class="stats-card">
-    <ng-template pTemplate="header">
-        <div class="card-header">
-            <h2>Workout Stats</h2>
-        </div>
-    </ng-template>
+<div class="stats-dashboard">
+    <div class="card-header">
+        <h2>Workout Stats</h2>
+    </div>
     
     <div *ngIf="user?.stats" class="stats-content">
         <h3>Your Stats</h3>
-        <div class="stats-container">
-            <p>Total Workouts: {{ user?.stats?.totalWorkouts }}</p>
-            <p>Total Calories Burned: {{ user?.stats?.totalCaloriesBurned }}</p>
-            <p>Total Distance: {{ user?.stats?.totalDistance }}</p>
-            <p>Total Time: {{ user?.stats?.totalTime }}</p>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-label">Total Workouts</span>
+                <span class="stat-value">{{ user?.stats?.totalWorkouts }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Calories Burned</span>
+                <span class="stat-value">{{ user?.stats?.totalCaloriesBurned }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Distance</span>
+                <span class="stat-value">{{ user?.stats?.totalDistance }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Time</span>
+                <span class="stat-value">{{ user?.stats?.totalTime }}</span>
+            </div>
         </div>
     </div>
     
     <div *ngIf="loading" class="loading-state">
-        <p-progressSpinner [style]="{width: '40px', height: '40px'}"></p-progressSpinner>
+        <div class="spinner"></div>
         <span>Loading stats...</span>
     </div>
     
     <div *ngIf="error" class="error-state">
-        <i class="pi pi-exclamation-triangle"></i>
+        <span class="error-icon">⚠️</span>
         <span>Error loading stats</span>
     </div>
-</p-card>
+</div>

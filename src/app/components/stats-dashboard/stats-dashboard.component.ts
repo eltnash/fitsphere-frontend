@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardModule } from 'primeng/card';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { GraphQLService } from '../../services/graphql.service';
 import { User, Stats } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-stats-dashboard',
   standalone: true,
-  imports: [CommonModule, CardModule, ProgressSpinnerModule],
-  templateUrl: './stats-dashboard.component.html'
+  imports: [CommonModule],
+  templateUrl: './stats-dashboard.component.html',
+  styleUrls: ['./stats-dashboard.component.scss']
 })
 export class StatsDashboardComponent implements OnInit {
   user?: User;
