@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 interface WorkoutStats {
   totalWorkouts: number;
   totalCaloriesBurned: number;
+  totalDistance: number;  // in kilometers
+  totalTime: number;     // in minutes
 }
 
 @Component({
@@ -34,7 +36,9 @@ export class StatsDashboardComponent implements OnInit {
     setTimeout(() => {
       this.stats = {
         totalWorkouts: 0,
-        totalCaloriesBurned: 0
+        totalCaloriesBurned: 0,
+        totalDistance: 0,
+        totalTime: 0
       };
       this.loading = false;
     }, 1000);
