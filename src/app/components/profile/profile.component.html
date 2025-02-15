@@ -5,17 +5,12 @@
     {{ error }}
   </div>
 
-  <div *ngIf="user" class="user-info">
+  <div *ngIf="user">
     <h2>Profile</h2>
-    <div class="info-item">
-      <label>Name:</label>
-      <span>{{ user.name }}</span>
+    <div class="profile-info">
+      <p>Name: {{ user.name }}</p>
+      <p>Email: {{ user.email }}</p>
     </div>
-    <div class="info-item">
-      <label>Email:</label>
-      <span>{{ user.email }}</span>
-    </div>
-    
     <app-stats-dashboard></app-stats-dashboard>
   </div>
 </div> 

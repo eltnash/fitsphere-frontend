@@ -1,40 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { GraphQLService } from '../../services/graphql.service';
 import { User, Stats } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-stats-dashboard',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div *ngIf="user">
-      <h2>Welcome {{ user.name }}</h2>
-      <div *ngIf="user.stats">
-        <h3>Your Stats</h3>
-        <p>Total Workouts: {{ user.stats.totalWorkouts }}</p>
-        <p>Total Calories Burned: {{ user.stats.totalCaloriesBurned }}</p>
-        <p>Total Distance: {{ user.stats.totalDistance }}</p>
-        <p>Total Time: {{ user.stats.totalTime }}</p>
-      </div>
-    </div>
-  `
+  imports: [CommonModule, CardModule, ProgressSpinnerModule],
+  templateUrl: './stats-dashboard.component.html'
 })
 export class StatsDashboardComponent implements OnInit {
   user?: User;
+  loading = false;
+  error: string | null = null;
 
   constructor(private graphQLService: GraphQLService) {}
 
   ngOnInit() {
-    // Replace this hardcoded ID with a real user ID
-    const userId = 'actual-user-id'; // Get this from your auth service
-    
-    this.graphQLService.getUserById(userId).subscribe({
+    this.loading = true;
+    this.graphQLService.getUserById('1').subscribe({
       next: (user) => {
         this.user = user;
+        this.loading = false;
       },
-      error: (error) => {
-        console.error('Error fetching user:', error);
+      error: (err) => {
+        this.error = err.message;
+        this.loading = false;
       }
     });
   }

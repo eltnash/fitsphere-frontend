@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../services/auth.service';
+import { GraphQLService } from '../../services/graphql.service';
+import { User } from '../../interfaces/user.interface';
 import { StatsDashboardComponent } from '../stats-dashboard/stats-dashboard.component';
 
 @Component({
@@ -17,9 +18,9 @@ import { StatsDashboardComponent } from '../stats-dashboard/stats-dashboard.comp
 export class ProfileComponent implements OnInit {
   loading = true;
   error: string | null = null;
-  user: User | null = null;
+  user?: User;
 
-  constructor(private authService: AuthService) {}
+  constructor(private graphQLService: GraphQLService) {}
 
   ngOnInit() {
     this.loadUserProfile();
@@ -27,14 +28,14 @@ export class ProfileComponent implements OnInit {
 
   loadUserProfile() {
     this.loading = true;
-    this.authService.getCurrentUser().subscribe({
+    this.graphQLService.getUserById('1').subscribe({
       next: (user) => {
-        this.loading = false;
         this.user = user;
+        this.loading = false;
       },
       error: (err) => {
-        this.loading = false;
         this.error = err.message;
+        this.loading = false;
       }
     });
   }

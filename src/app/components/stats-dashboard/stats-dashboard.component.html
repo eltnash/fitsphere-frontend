@@ -5,14 +5,13 @@
         </div>
     </ng-template>
     
-    <div *ngIf="stats" class="stats-content">
-        <div class="stat-item">
-            <span class="stat-label">Total Workouts</span>
-            <span class="stat-value">{{ stats.totalWorkouts }}</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-label">Total Calories Burned</span>
-            <span class="stat-value">{{ stats.totalCaloriesBurned }}</span>
+    <div *ngIf="user?.stats" class="stats-content">
+        <h3>Your Stats</h3>
+        <div class="stats-container">
+            <p>Total Workouts: {{ user?.stats?.totalWorkouts }}</p>
+            <p>Total Calories Burned: {{ user?.stats?.totalCaloriesBurned }}</p>
+            <p>Total Distance: {{ user?.stats?.totalDistance }}</p>
+            <p>Total Time: {{ user?.stats?.totalTime }}</p>
         </div>
     </div>
     
