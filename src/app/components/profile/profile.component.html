@@ -1,16 +1,32 @@
 <div class="profile-container">
-  <div *ngIf="loading" class="loading">Loading...</div>
-  
-  <div *ngIf="error" class="error">
-    {{ error }}
-  </div>
+  <div class="profile-card">
+    <div class="card-header">
+      <h2>Profile</h2>
+    </div>
 
-  <div *ngIf="user">
-    <h2>Profile</h2>
-    <div class="profile-info">
-      <p>Name: {{ user.name }}</p>
-      <p>Email: {{ user.email }}</p>
+    <div *ngIf="user" class="profile-content">
+      <div class="profile-info">
+        <div class="info-item">
+          <span class="info-label">Name</span>
+          <span class="info-value">{{ user.name }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ user.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <span>Loading profile...</span>
+    </div>
+
+    <div *ngIf="error" class="error-state">
+      <span class="error-icon">⚠️</span>
+      <span>{{ error }}</span>
     </div>
   </div>
+
   <app-stats-dashboard></app-stats-dashboard>
 </div> 
