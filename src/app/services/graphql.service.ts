@@ -29,7 +29,7 @@ export class GraphQLService {
           }
         }
       `,
-      variables: { id: '1' }
+      variables: { id: '2' }
     }).pipe(
       map(result => result.data.user)
     );
